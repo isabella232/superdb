@@ -91,7 +91,7 @@
 		return NO;
 	}
 	
-	NSLog(@"Server socket started.");
+	NSLog(@"Server socket started");
 	return YES;
 }
 
@@ -127,8 +127,11 @@
 #if !TARGET_OS_IPHONE
 	return [[NSHost currentHost] localizedName];
 #elif TARGET_OS_IPHONE
-	return [NSString stringWithFormat:@"%@: %@",[[UIDevice currentDevice] name], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
-;
+    char hostname[256];
+    gethostname(hostname, 256);
+    NSString *name = [NSString stringWithFormat:@"%s: %@", hostname, [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
+    NSLog(@"SuperDB Service Name: %@", name);
+    return name;
 #endif
 }
 
